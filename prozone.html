@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Zone Sub</title>
+
+    <!-- Browser Tab Icon (Favicon) -->
+    <link id="dynamicFavicon" rel="icon" type="image/jpeg" href="rozone.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="rozone.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #060911;
+            --bg-elevated: #0d1322;
+            --card-bg: rgba(16, 24, 42, 0.78);
+            --card-hover: rgba(22, 33, 58, 0.95);
+            --border: rgba(148, 163, 184, 0.16);
+            --border-glow: rgba(34, 211, 238, 0.55);
+            --cyan: #22d3ee;
+            --cyan-2: #06b6d4;
+            --violet: #8b5cf6;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text);
+            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body[lang="ar"] {
+            font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Ambient Glow Background */
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.32;
+        }
+
+        .orb-1 {
+            width: 420px;
+            height: 420px;
+            background: var(--cyan-2);
+            top: -120px;
+            left: -100px;
+        }
+
+        .orb-2 {
+            width: 460px;
+            height: 460px;
+            background: var(--violet);
+            bottom: -150px;
+            right: -120px;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 42px 42px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navbar */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 120;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 14px 5%;
+            background: rgba(8, 12, 22, 0.78);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1.5px solid rgba(34, 211, 238, 0.45);
+            background: #05070d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.22);
+            flex-shrink: 0;
+        }
+
+        .brand-logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .brand-name {
+            font-size: 1.35rem;
+            font-weight: 900;
+            letter-spacing: 0.4px;
+            background: linear-gradient(95deg, #ffffff 0%, var(--cyan) 55%, #c4b5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            display: inline-flex;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: var(--muted);
+            padding: 6px 10px;
+            border-radius: 7px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--cyan), var(--violet));
+            color: #050811;
+            box-shadow: 0 2px 10px rgba(34, 211, 238, 0.25);
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-family: inherit;
+            transition: all 0.22s ease;
+        }
+
+        .btn-lock {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(34, 211, 238, 0.42);
+            color: var(--cyan);
+            padding: 9px 15px;
+            font-size: 0.86rem;
+        }
+
+        .btn-lock:hover {
+            background: var(--cyan);
+            color: #04070f;
+            box-shadow: 0 0 22px rgba(34, 211, 238, 0.42);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan) 0%, #38bdf8 55%, var(--violet) 125%);
+            color: #040711;
+            padding: 10px 18px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(34, 211, 238, 0.32);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 68px 5% 42px;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            color: var(--cyan);
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.65; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.35rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 14px;
+            background: linear-gradient(180deg, #ffffff 10%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1.03rem;
+            line-height: 1.7;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* Store Grid */
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 18px 5% 96px;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 26px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .section-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: "";
+            width: 5px;
+            height: 24px;
+            border-radius: 99px;
+            background: linear-gradient(180deg, var(--cyan), var(--violet));
+            display: inline-block;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+            gap: 22px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.28s ease;
+        }
+
+        .product-card:hover {
+            background: var(--card-hover);
+            border-color: var(--border-glow);
+            transform: translateY(-6px);
+            box-shadow: 0 18px 36px -12px rgba(0, 0, 0, 0.65), 0 0 24px rgba(34, 211, 238, 0.12);
+        }
+
+        .badge {
+            position: absolute;
+            top: 18px;
+            inset-inline-end: 18px;
+            background: rgba(139, 92, 246, 0.18);
+            border: 1px solid rgba(167, 139, 250, 0.35);
+            color: #ddd6fe;
+            padding: 4px 11px;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+
+        .product-media {
+            width: 100%;
+            height: 148px;
+            border-radius: 14px;
+            background: rgba(34, 211, 238, 0.06);
+            border: 1px solid rgba(34, 211, 238, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 16px;
+            font-size: 2.6rem;
+        }
+
+        .product-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-card h3 {
+            font-size: 1.18rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .product-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .price {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--cyan);
+        }
+
+        /* Floating Contact Button */
+        .floating-contact-btn {
+            position: fixed;
+            bottom: 24px;
+            inset-inline-start: 24px;
+            z-index: 250;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 13px 20px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--cyan) 0%, #38bdf8 55%, var(--violet) 125%);
+            color: #040711;
+            font-size: 0.94rem;
+            font-weight: 900;
+            box-shadow: 0 12px 30px rgba(34, 211, 238, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .floating-contact-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 16px 36px rgba(34, 211, 238, 0.48);
+        }
+
+        .contact-choices {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-choice-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 15px 17px;
+            border-radius: 14px;
+            background: rgba(6, 9, 17, 0.85);
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.22s ease;
+        }
+
+        .contact-choice-card:hover {
+            border-color: var(--cyan);
+            background: rgba(15, 23, 42, 0.95);
+            transform: translateY(-2px);
+        }
+
+        .contact-choice-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-badge-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .ig-icon {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(236, 72, 153, 0.22), rgba(139, 92, 246, 0.25));
+            border: 1px solid rgba(236, 72, 153, 0.4);
+        }
+
+        .call-icon {
+            background: rgba(16, 185, 129, 0.16);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .contact-choice-title {
+            font-weight: 800;
+            font-size: 0.98rem;
+            color: #fff;
+        }
+
+        .contact-choice-sub {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 2px;
+            direction: ltr;
+            unicode-bidi: isolate;
+        }
+
+        .contact-arrow {
+            color: var(--cyan);
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        /* Admin View */
+        #adminView {
+            display: none;
+            position: relative;
+            z-index: 1;
+            padding: 34px 5% 96px;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        .admin-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            padding: 22px;
+            border-radius: 16px;
+        }
+
+        .stat-box span {
+            color: var(--muted);
+            font-size: 0.86rem;
+            font-weight: 600;
+        }
+
+        .stat-box h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--cyan);
+            margin-top: 6px;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.45fr;
+            gap: 26px;
+        }
+
+        @media (max-width: 920px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+        }
+
+        .panel-box h3 {
+            margin-bottom: 18px;
+            color: var(--cyan);
+            font-size: 1.12rem;
+            font-weight: 800;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.86rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 11px 14px;
+            background: rgba(6, 9, 17, 0.85);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.92rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input[type="file"] {
+            padding: 9px 12px;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.12);
+        }
+
+        .upload-preview-wrap {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: rgba(6, 9, 17, 0.85);
+            border: 1px solid rgba(34, 211, 238, 0.28);
+        }
+
+        .upload-preview-wrap img {
+            width: 58px;
+            height: 58px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        .btn-mini-clear {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            padding: 6px 11px;
+            font-size: 0.78rem;
+            border-radius: 8px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 15px;
+            background: rgba(6, 9, 17, 0.72);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .admin-prod-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .admin-prod-emoji {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            flex-shrink: 0;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.14);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 7px 13px;
+            font-size: 0.82rem;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 7px 13px;
+            font-size: 0.82rem;
+        }
+
+        .btn-success:hover {
+            background: var(--success);
+            color: #04120c;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 5, 12, 0.82);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #0d1424;
+            border: 1px solid rgba(34, 211, 238, 0.35);
+            padding: 28px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 430px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--muted);
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fff;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 22px;
+            inset-inline-end: 22px;
+            background: linear-gradient(135deg, var(--success), #34d399);
+            color: #03130b;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            display: none;
+            z-index: 2000;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+        }
+    </style>
+</head>
+<body lang="en" dir="ltr">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="brand-wrap">
+            <div class="brand-logo-box">
+                <img
+                    id="navLogoImg"
+                    src="rozone.jpg"
+                    alt="Pro Zone Sub Logo"
+                    onerror="this.src=window.fallbackLogoDataUrl"
+                >
+            </div>
+            <span class="brand-name">Pro Zone Sub</span>
+        </div>
+
+        <div class="nav-right">
+            <div class="lang-switcher" aria-label="Language Switcher">
+                <button type="button" class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+                <button type="button" class="lang-btn" data-lang="ar" onclick="setLanguage('ar')">العربية</button>
+                <button type="button" class="lang-btn" data-lang="fr" onclick="setLanguage('fr')">FR</button>
+            </div>
+
+            <button id="switchStoreBtn" type="button" class="btn-primary" style="display:none;" onclick="showStore()" data-i18n="backToStore">Storefront</button>
+
+            <button id="adminAccessBtn" type="button" class="btn-lock" onclick="openLoginModal()">
+                <span>🔒</span>
+                <span>log in ad</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- PUBLIC STORE VIEW -->
+    <div id="storeView">
+        <section class="hero">
+            <div class="hero-pill">
+                <span class="pulse-dot"></span>
+                <span data-i18n="heroBadge">Pro Zone Sub • Instant Digital Access</span>
+            </div>
+            <h1 data-i18n="heroTitle">Premium Subscriptions & Digital Packs</h1>
+            <p data-i18n="heroSubtitle">Fast, reliable digital subscriptions, creative packs, and exclusive services tailored for smooth ordering.</p>
+        </section>
+
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="availableOffers">Available Offers</h2>
+            </div>
+            <div class="products-grid" id="publicProductsGrid">
+                <p style="color:var(--muted)" data-i18n="loadingOffers">Loading offers...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL VIEW -->
+    <div id="adminView">
+        <div class="admin-top-bar">
+            <h2 style="font-size:1.55rem; font-weight:900;" data-i18n="adminTitle">Admin Dashboard</h2>
+            <button type="button" class="btn-danger" onclick="logoutAdmin()" data-i18n="logout">Logout</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span data-i18n="statProducts">Total Offers</span>
+                <h2 id="statProducts">0</h2>
+            </div>
+            <div class="stat-box">
+                <span data-i18n="statOrders">Incoming Orders</span>
+                <h2 id="statOrders">0</h2>
+            </div>
+            <div class="stat-box">
+                <span data-i18n="statRevenue">Validated Revenue</span>
+                <h2 id="statRevenue">0 DA</h2>
+            </div>
+        </div>
+
+        <div class="admin-grid">
+            <div class="panel-box">
+                <h3 data-i18n="addOfferHeading">Add New Offer</h3>
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label data-i18n="offerTitleLabel">Offer Name</label>
+                        <input type="text" id="pTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="offerPriceLabel">Price (DA)</label>
+                        <input type="number" id="pPrice" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="offerBadgeLabel">Tag / Badge</label>
+                        <input type="text" id="pBadge" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="offerImageLabel">Product Image (PC or Phone)</label>
+                        <input type="file" id="pImageFile" accept="image/*">
+                        <div class="upload-preview-wrap" id="imagePreviewWrap">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <img id="imagePreviewThumb" src="" alt="Preview">
+                                <span id="imagePreviewName" style="font-size:0.82rem; color:var(--cyan); font-weight:700;"></span>
+                            </div>
+                            <button type="button" class="btn-mini-clear" id="clearImageBtn" data-i18n="removeImageBtn">Remove</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="offerIconLabel">Fallback Emoji (if no image)</label>
+                        <input type="text" id="pIcon" value="⚡">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="offerDescLabel">Description</label>
+                        <textarea id="pDesc" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width:100%;" data-i18n="publishOffer">Publish Offer</button>
+                </form>
+
+                <h3 style="margin-top:28px;" data-i18n="manageOffersHeading">Active Offers</h3>
+                <div id="adminProductsList"></div>
+            </div>
+
+            <div class="panel-box">
+                <h3 data-i18n="liveOrdersHeading">Live Orders & Activity</h3>
+                <p style="color:var(--muted); font-size:0.86rem; margin-bottom:16px;" data-i18n="liveOrdersSub">New customer orders appear here in real time.</p>
+                <div id="adminOrdersList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Contact Button -->
+    <button type="button" class="floating-contact-btn" onclick="openContactModal()">
+        <span>💬</span>
+        <span data-i18n="contactBtn">Contact</span>
+    </button>
+
+    <!-- Contact Choice Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="contactModalTitle">Contact</h3>
+                <button type="button" class="close-btn" onclick="closeModals()">&times;</button>
+            </div>
+            <div class="contact-choices">
+                <a
+                    class="contact-choice-card"
+                    href="https://www.instagram.com/pro_zone.0/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <div class="contact-choice-left">
+                        <div class="contact-badge-icon ig-icon">📸</div>
+                        <div>
+                            <div class="contact-choice-title">Instagram</div>
+                            <div class="contact-choice-sub">@pro_zone.0</div>
+                        </div>
+                    </div>
+                    <span class="contact-arrow">↗</span>
+                </a>
+
+                <a
+                    class="contact-choice-card"
+                    href="tel:+213553645059"
+                >
+                    <div class="contact-choice-left">
+                        <div class="contact-badge-icon call-icon">📞</div>
+                        <div>
+                            <div class="contact-choice-title" data-i18n="dialerOptionTitle">Dialer Call</div>
+                            <div class="contact-choice-sub">+213553645059</div>
+                        </div>
+                    </div>
+                    <span class="contact-arrow">↗</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔒 log in ad</h3>
+                <button type="button" class="close-btn" onclick="closeModals()">&times;</button>
+            </div>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label data-i18n="passLabel">Access Code</label>
+                    <input type="password" id="adminPassInput" autocomplete="off" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width:100%;" data-i18n="enterBtn">Enter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="orderModalTitle">Order Offer</h3>
+                <button type="button" class="close-btn" onclick="closeModals()">&times;</button>
+            </div>
+            <form id="orderForm">
+                <input type="hidden" id="selectedProductTitle">
+                <input type="hidden" id="selectedProductPrice">
+
+                <div class="form-group">
+                    <label data-i18n="fullNameLabel">Full Name</label>
+                    <input type="text" id="clientName" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="dialerNumberLabel">Dialer Number</label>
+                    <input type="tel" id="clientPhone" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="paymentLabel">Payment Method</label>
+                    <select id="paymentMethod">
+                        <option value="BaridiMob">BaridiMob</option>
+                        <option value="CCP">CCP</option>
+                        <option value="Flexy / Paysera">Flexy / Paysera</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" style="width:100%;" data-i18n="sendOrderBtn">Submit Order</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- Fallback SVG Logo & Translations -->
+    <script>
+        const fallbackSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+            <rect width="120" height="120" rx="24" fill="#070a12"/>
+            <g fill="#e2e8f0">
+                <rect x="14" y="34" width="22" height="7" rx="3"/>
+                <rect x="20" y="46" width="16" height="7" rx="3" fill="#67e8f9"/>
+                <rect x="16" y="58" width="20" height="7" rx="3"/>
+            </g>
+            <path d="M44 28h32c19 0 30 9 30 23 0 13-9 22-24 25l-25 5v17H42V28zm17 14v22l15-3c7-1 12-5 12-11 0-6-5-8-14-8H61z" fill="#f8fafc"/>
+            <path d="M36 89c24 3 52-7 69-24-8 19-34 32-69 30z" fill="#94a3b8"/>
+        </svg>`;
+        window.fallbackLogoDataUrl = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(fallbackSvg);
+
+        const faviconEl = document.getElementById("dynamicFavicon");
+        const probeImg = new Image();
+        probeImg.onload = () => {
+            faviconEl.href = "rozone.jpg";
+        };
+        probeImg.onerror = () => {
+            faviconEl.type = "image/svg+xml";
+            faviconEl.href = window.fallbackLogoDataUrl;
+        };
+        probeImg.src = "rozone.jpg";
+
+        const translations = {
+            en: {
+                dir: "ltr",
+                heroBadge: "Pro Zone Sub • Instant Digital Access",
+                heroTitle: "Premium Subscriptions & Digital Packs",
+                heroSubtitle: "Fast, reliable digital subscriptions, creative packs, and exclusive services tailored for smooth ordering.",
+                availableOffers: "Available Offers",
+                loadingOffers: "Loading offers...",
+                noOffers: "No offers available right now.",
+                buyNow: "Order Now",
+                backToStore: "Storefront",
+                adminTitle: "Admin Dashboard",
+                logout: "Logout",
+                statProducts: "Total Offers",
+                statOrders: "Incoming Orders",
+                statRevenue: "Validated Revenue",
+                addOfferHeading: "Add New Offer",
+                offerTitleLabel: "Offer Name",
+                offerPriceLabel: "Price (DA)",
+                offerBadgeLabel: "Tag / Badge",
+                offerImageLabel: "Product Image (PC or Phone)",
+                removeImageBtn: "Remove",
+                offerIconLabel: "Fallback Emoji (if no image)",
+                offerDescLabel: "Description",
+                publishOffer: "Publish Offer",
+                manageOffersHeading: "Active Offers",
+                deleteBtn: "Delete",
+                liveOrdersHeading: "Live Orders & Activity",
+                liveOrdersSub: "New customer orders appear here in real time.",
+                noOrders: "No orders received yet.",
+                passLabel: "Access Code",
+                enterBtn: "Enter",
+                wrongPass: "Invalid access code.",
+                orderPrefix: "Order",
+                fullNameLabel: "Full Name",
+                dialerNumberLabel: "Dialer Number",
+                paymentLabel: "Payment Method",
+                sendOrderBtn: "Submit Order",
+                statusValid: "Validated",
+                statusPending: "Pending",
+                validateBtn: "Validate",
+                contactBtn: "Contact",
+                contactModalTitle: "Contact",
+                dialerOptionTitle: "Dialer Call",
+                toastAdded: "Offer published live!",
+                toastDeleted: "Offer removed.",
+                toastValidated: "Order validated!",
+                toastOrderSent: "Order received! We will contact you shortly.",
+                toastLoggedOut: "Logged out."
+            },
+            ar: {
+                dir: "rtl",
+                heroBadge: "Pro Zone Sub • وصول رقمي فوري",
+                heroTitle: "اشتراكات مميزة وباقات رقمية",
+                heroSubtitle: "اشتراكات رقمية سريعة وموثوقة، حزم تصميم، وخدمات مختارة بتجربة طلب سهلة ومباشرة.",
+                availableOffers: "العروض المتاحة",
+                loadingOffers: "جاري تحميل العروض...",
+                noOffers: "لا توجد عروض متاحة حالياً.",
+                buyNow: "اطلب الآن",
+                backToStore: "الواجهة",
+                adminTitle: "لوحة الإدارة",
+                logout: "خروج",
+                statProducts: "عدد العروض",
+                statOrders: "الطلبات الواردة",
+                statRevenue: "الأرباح المؤكدة",
+                addOfferHeading: "إضافة عرض جديد",
+                offerTitleLabel: "اسم العرض",
+                offerPriceLabel: "السعر (د.ج)",
+                offerBadgeLabel: "التصنيف / شارة",
+                offerImageLabel: "صورة المنتج (من الهاتف أو الكمبيوتر)",
+                removeImageBtn: "إزالة",
+                offerIconLabel: "إيموجي بديل (إذا لم تختر صورة)",
+                offerDescLabel: "الوصف",
+                publishOffer: "نشر العرض",
+                manageOffersHeading: "العروض النشطة",
+                deleteBtn: "حذف",
+                liveOrdersHeading: "الطلبات والنشاط المباشر",
+                liveOrdersSub: "أي طلب جديد يظهر هنا فوراً دون تحديث الصفحة.",
+                noOrders: "لا توجد طلبات بعد.",
+                passLabel: "رمز الدخول",
+                enterBtn: "دخول",
+                wrongPass: "رمز الدخول غير صحيح.",
+                orderPrefix: "طلب",
+                fullNameLabel: "الاسم الكامل",
+                dialerNumberLabel: "رقم الهاتف (اتصال)",
+                paymentLabel: "طريقة الدفع",
+                sendOrderBtn: "إرسال الطلب",
+                statusValid: "مؤكد",
+                statusPending: "قيد الانتظار",
+                validateBtn: "تأكيد الدفع",
+                contactBtn: "تواصل",
+                contactModalTitle: "تواصل معنا",
+                dialerOptionTitle: "اتصال هاتفي",
+                toastAdded: "تم نشر العرض مباشرة!",
+                toastDeleted: "تم حذف العرض.",
+                toastValidated: "تم تأكيد الطلب!",
+                toastOrderSent: "تم إرسال طلبك بنجاح! سنتصل بك قريباً.",
+                toastLoggedOut: "تم تسجيل الخروج."
+            },
+            fr: {
+                dir: "ltr",
+                heroBadge: "Pro Zone Sub • Accès Digital Rapide",
+                heroTitle: "Abonnements Premium & Packs Digitaux",
+                heroSubtitle: "Abonnements digitaux fiables, packs créatifs et services sélectionnés avec commande simple.",
+                availableOffers: "Offres Disponibles",
+                loadingOffers: "Chargement des offres...",
+                noOffers: "Aucune offre disponible pour le moment.",
+                buyNow: "Commander",
+                backToStore: "Boutique",
+                adminTitle: "Tableau de Bord Admin",
+                logout: "Déconnexion",
+                statProducts: "Total Offres",
+                statOrders: "Commandes Reçues",
+                statRevenue: "Revenus Validés",
+                addOfferHeading: "Ajouter une Offre",
+                offerTitleLabel: "Nom de l'offre",
+                offerPriceLabel: "Prix (DA)",
+                offerBadgeLabel: "Badge / Catégorie",
+                offerImageLabel: "Image du produit (PC ou Téléphone)",
+                removeImageBtn: "Retirer",
+                offerIconLabel: "Emoji de secours (si pas d'image)",
+                offerDescLabel: "Description",
+                publishOffer: "Publier l'offre",
+                manageOffersHeading: "Offres Actives",
+                deleteBtn: "Supprimer",
+                liveOrdersHeading: "Commandes & Activité en Direct",
+                liveOrdersSub: "Les nouvelles commandes apparaissent ici en temps réel.",
+                noOrders: "Aucune commande pour le moment.",
+                passLabel: "Code d'accès",
+                enterBtn: "Connexion",
+                wrongPass: "Code d'accès incorrect.",
+                orderPrefix: "Commande",
+                fullNameLabel: "Nom Complet",
+                dialerNumberLabel: "Numéro d'appel",
+                paymentLabel: "Mode de Paiement",
+                sendOrderBtn: "Envoyer la commande",
+                statusValid: "Validée",
+                statusPending: "En attente",
+                validateBtn: "Valider",
+                contactBtn: "Contact",
+                contactModalTitle: "Contact",
+                dialerOptionTitle: "Appel téléphonique",
+                toastAdded: "Offre publiée en direct !",
+                toastDeleted: "Offre supprimée.",
+                toastValidated: "Commande validée !",
+                toastOrderSent: "Commande envoyée ! Nous vous appellerons bientôt.",
+                toastLoggedOut: "Déconnecté."
+            }
+        };
+
+        window.currentLang = localStorage.getItem("pzs_lang") || "en";
+
+        window.t = function(key) {
+            return (translations[window.currentLang] && translations[window.currentLang][key]) || translations.en[key] || key;
+        };
+
+        window.setLanguage = function(lang) {
+            if (!translations[lang]) return;
+            window.currentLang = lang;
+            localStorage.setItem("pzs_lang", lang);
+            document.documentElement.lang = lang;
+            document.documentElement.dir = translations[lang].dir;
+            document.body.setAttribute("lang", lang);
+            document.body.dir = translations[lang].dir;
+
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.classList.toggle("active", btn.dataset.lang === lang);
+            });
+
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const k = el.getAttribute("data-i18n");
+                if (translations[lang][k]) {
+                    el.textContent = translations[lang][k];
+                }
+            });
+
+            if (typeof window.rerenderDynamicViews === "function") {
+                window.rerenderDynamicViews();
+            }
+        };
+    </script>
+
+    <!-- FIREBASE REALTIME INTEGRATION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            deleteDoc,
+            doc,
+            updateDoc,
+            onSnapshot,
+            query,
+            orderBy,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyACv8PT7jJn4EKeSz7oPPzG7Y8okPZhWl4",
+            authDomain: "digital-a754a.firebaseapp.com",
+            projectId: "digital-a754a",
+            storageBucket: "digital-a754a.firebasestorage.app",
+            messagingSenderId: "845533561904",
+            appId: "1:845533561904:web:1577dea5d242f1aa83d9f5",
+            measurementId: "G-719WLQZWDM"
+        };
+
+        const ADMIN_CODE = "poisson1983.daha17";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const productsCol = collection(db, "products");
+        const ordersCol = collection(db, "orders");
+
+        let latestProducts = [];
+        let latestOrders = [];
+        let uploadedProductImageDataUrl = "";
+
+        const fileInputEl = document.getElementById("pImageFile");
+        const previewWrapEl = document.getElementById("imagePreviewWrap");
+        const previewThumbEl = document.getElementById("imagePreviewThumb");
+        const previewNameEl = document.getElementById("imagePreviewName");
+        const clearImageBtnEl = document.getElementById("clearImageBtn");
+
+        function resetUploadedImage() {
+            uploadedProductImageDataUrl = "";
+            fileInputEl.value = "";
+            previewThumbEl.src = "";
+            previewNameEl.textContent = "";
+            previewWrapEl.style.display = "none";
+        }
+
+        function compressImageFile(file, maxWidth = 640, quality = 0.72) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = reject;
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onerror = reject;
+                    img.onload = () => {
+                        let targetW = img.width;
+                        let targetH = img.height;
+                        if (targetW > maxWidth) {
+                            targetH = Math.round((targetH * maxWidth) / targetW);
+                            targetW = maxWidth;
+                        }
+                        const canvas = document.createElement("canvas");
+                        canvas.width = targetW;
+                        canvas.height = targetH;
+                        const ctx = canvas.getContext("2d");
+                        ctx.drawImage(img, 0, 0, targetW, targetH);
+                        resolve(canvas.toDataURL("image/jpeg", quality));
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        fileInputEl.addEventListener("change", async (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) {
+                resetUploadedImage();
+                return;
+            }
+            try {
+                const compressedDataUrl = await compressImageFile(file);
+                uploadedProductImageDataUrl = compressedDataUrl;
+                previewThumbEl.src = compressedDataUrl;
+                previewNameEl.textContent = file.name;
+                previewWrapEl.style.display = "flex";
+            } catch (err) {
+                resetUploadedImage();
+            }
+        });
+
+        clearImageBtnEl.addEventListener("click", resetUploadedImage);
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.textContent = msg;
+            toast.style.display = "block";
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
+                toast.style.display = "none";
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById("publicProductsGrid");
+            const adminList = document.getElementById("adminProductsList");
+            document.getElementById("statProducts").textContent = latestProducts.length;
+
+            if (latestProducts.length === 0) {
+                grid.innerHTML = `<p style="color:var(--muted)">${escapeHtml(window.t("noOffers"))}</p>`;
+                adminList.innerHTML = `<p style="color:var(--muted); font-size:0.9rem;">${escapeHtml(window.t("noOffers"))}</p>`;
+                return;
+            }
+
+            grid.innerHTML = latestProducts.map(p => {
+                const safeTitle = escapeHtml(p.title);
+                const safeBadge = escapeHtml(p.badge);
+                const safeIcon = escapeHtml(p.icon || "⚡");
+                const safeDesc = escapeHtml(p.desc);
+                const safePrice = Number(p.price) || 0;
+                const jsTitle = JSON.stringify(p.title);
+                const mediaHtml = p.image
+                    ? `<div class="product-media"><img src="${escapeHtml(p.image)}" alt="${safeTitle}"></div>`
+                    : `<div class="product-media"><span>${safeIcon}</span></div>`;
+
+                return `
+                    <div class="product-card">
+                        <span class="badge">${safeBadge}</span>
+                        <div>
+                            ${mediaHtml}
+                            <h3>${safeTitle}</h3>
+                            <p>${safeDesc}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="price">${safePrice} DA</span>
+                            <button type="button" class="btn-primary" onclick='window.openOrderModal(${jsTitle}, ${safePrice})'>${escapeHtml(window.t("buyNow"))}</button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            adminList.innerHTML = latestProducts.map(p => {
+                const safeTitle = escapeHtml(p.title);
+                const safeIcon = escapeHtml(p.icon || "⚡");
+                const safePrice = Number(p.price) || 0;
+                const jsId = JSON.stringify(p.id);
+                const thumbHtml = p.image
+                    ? `<img class="admin-prod-thumb" src="${escapeHtml(p.image)}" alt="${safeTitle}">`
+                    : `<div class="admin-prod-emoji">${safeIcon}</div>`;
+
+                return `
+                    <div class="item-row">
+                        <div style="display:flex; align-items:center; gap:11px;">
+                            ${thumbHtml}
+                            <div>
+                                <strong>${safeTitle}</strong><br>
+                                <small style="color:var(--cyan); font-weight:700;">${safePrice} DA</small>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-danger" onclick='window.deleteProduct(${jsId})'>${escapeHtml(window.t("deleteBtn"))}</button>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function renderOrders() {
+            const orderList = document.getElementById("adminOrdersList");
+            document.getElementById("statOrders").textContent = latestOrders.length;
+
+            let totalRev = 0;
+            latestOrders.forEach(o => {
+                if (o.status === "Validé") totalRev += Number(o.price) || 0;
+            });
+            document.getElementById("statRevenue").textContent = totalRev + " DA";
+
+            if (latestOrders.length === 0) {
+                orderList.innerHTML = `<p style="color:var(--muted)">${escapeHtml(window.t("noOrders"))}</p>`;
+                return;
+            }
+
+            orderList.innerHTML = latestOrders.map(o => {
+                const isDone = o.status === "Validé";
+                const jsId = JSON.stringify(o.id);
+
+                return `
+                    <div class="item-row" style="flex-direction:column; align-items:stretch; gap:8px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                            <strong>🛒 ${escapeHtml(o.productTitle)} (${Number(o.price) || 0} DA)</strong>
+                            <span style="font-size:0.8rem; font-weight:700; color:${isDone ? "var(--success)" : "var(--warning)"}">
+                                ${isDone ? "✅ " + escapeHtml(window.t("statusValid")) : "⏳ " + escapeHtml(window.t("statusPending"))}
+                            </span>
+                        </div>
+                        <div style="font-size:0.88rem; color:var(--muted); line-height:1.55;">
+                            <strong style="color:#fff">${escapeHtml(o.clientName)}</strong> •
+                            <span style="color:var(--cyan); font-weight:700;">${escapeHtml(o.clientPhone)}</span><br>
+                            ${escapeHtml(o.method)} • ${escapeHtml(o.timeString || "")}
+                        </div>
+                        <div style="display:flex; gap:8px; margin-top:4px;">
+                            ${!isDone ? `<button type="button" class="btn-success" onclick='window.validateOrder(${jsId})'>${escapeHtml(window.t("validateBtn"))}</button>` : ""}
+                            <button type="button" class="btn-danger" onclick='window.deleteOrder(${jsId})'>${escapeHtml(window.t("deleteBtn"))}</button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        window.rerenderDynamicViews = function() {
+            renderProducts();
+            renderOrders();
+        };
+
+        onSnapshot(query(productsCol, orderBy("createdAt", "desc")), (snapshot) => {
+            latestProducts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderProducts();
+        });
+
+        onSnapshot(query(ordersCol, orderBy("createdAt", "desc")), (snapshot) => {
+            latestOrders = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderOrders();
+        });
+
+        document.getElementById("addProductForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            await addDoc(productsCol, {
+                title: document.getElementById("pTitle").value.trim(),
+                price: Number(document.getElementById("pPrice").value),
+                badge: document.getElementById("pBadge").value.trim(),
+                icon: document.getElementById("pIcon").value.trim() || "⚡",
+                image: uploadedProductImageDataUrl || "",
+                desc: document.getElementById("pDesc").value.trim(),
+                createdAt: serverTimestamp()
+            });
+            e.target.reset();
+            resetUploadedImage();
+            document.getElementById("pIcon").value = "⚡";
+            showToast(window.t("toastAdded"));
+        });
+
+        document.getElementById("orderForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            await addDoc(ordersCol, {
+                productTitle: document.getElementById("selectedProductTitle").value,
+                price: Number(document.getElementById("selectedProductPrice").value),
+                clientName: document.getElementById("clientName").value.trim(),
+                clientPhone: document.getElementById("clientPhone").value.trim(),
+                method: document.getElementById("paymentMethod").value,
+                timeString: new Date().toLocaleString(),
+                status: "En attente",
+                createdAt: serverTimestamp()
+            });
+            window.closeModals();
+            e.target.reset();
+            showToast(window.t("toastOrderSent"));
+        });
+
+        document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const inputEl = document.getElementById("adminPassInput");
+            if (inputEl.value === ADMIN_CODE) {
+                inputEl.value = "";
+                window.closeModals();
+                document.getElementById("storeView").style.display = "none";
+                document.getElementById("adminView").style.display = "block";
+                document.getElementById("adminAccessBtn").style.display = "none";
+                document.getElementById("switchStoreBtn").style.display = "inline-block";
+                renderProducts();
+                renderOrders();
+            } else {
+                alert(window.t("wrongPass"));
+            }
+        });
+
+        window.deleteProduct = async (id) => {
+            await deleteDoc(doc(db, "products", id));
+            showToast(window.t("toastDeleted"));
+        };
+
+        window.validateOrder = async (id) => {
+            await updateDoc(doc(db, "orders", id), { status: "Validé" });
+            showToast(window.t("toastValidated"));
+        };
+
+        window.deleteOrder = async (id) => {
+            await deleteDoc(doc(db, "orders", id));
+        };
+
+        window.openOrderModal = (title, price) => {
+            document.getElementById("selectedProductTitle").value = title;
+            document.getElementById("selectedProductPrice").value = price;
+            document.getElementById("orderModalTitle").textContent = `${window.t("orderPrefix")}: ${title} (${price} DA)`;
+            document.getElementById("orderModal").style.display = "flex";
+        };
+
+        window.openContactModal = () => {
+            document.getElementById("contactModal").style.display = "flex";
+        };
+
+        window.openLoginModal = () => {
+            document.getElementById("adminPassInput").value = "";
+            document.getElementById("loginModal").style.display = "flex";
+        };
+
+        window.closeModals = () => {
+            document.getElementById("loginModal").style.display = "none";
+            document.getElementById("orderModal").style.display = "none";
+            document.getElementById("contactModal").style.display = "none";
+        };
+
+        window.showStore = () => {
+            document.getElementById("adminView").style.display = "none";
+            document.getElementById("storeView").style.display = "block";
+            document.getElementById("switchStoreBtn").style.display = "none";
+            document.getElementById("adminAccessBtn").style.display = "inline-flex";
+        };
+
+        window.logoutAdmin = () => {
+            window.showStore();
+            showToast(window.t("toastLoggedOut"));
+        };
+
+        window.setLanguage(window.currentLang);
+    </script>
+</body>
+</html>
